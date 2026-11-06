@@ -1,0 +1,84 @@
+/* style.css — Base global, botones, pantalla de inicio y utilidades. */
+:root{--navy:#0f2a43;--azul:#1d4e89;--teal:#17a2a2;--sol:#ffc83d;--ok:#2fbf71;--okbg:#c9f2d9;--err:#ff6b57;--tx:#15263a;--mut:#5b6b7e;--sel:#d6ecff;--linea:#b9cde0;--r:18px;--sh:0 12px 32px rgba(8,25,45,.28)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+img,svg,video{max-width:100%;height:auto}
+button,a.btn{touch-action:manipulation}
+body{font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;color:var(--tx);min-height:100vh;background:radial-gradient(1200px 700px at 15% -10%,#2a6f97 0,transparent 60%),linear-gradient(160deg,#0f2a43,#12496b 60%,#0d6e72);background-attachment:fixed;-webkit-tap-highlight-color:transparent}
+.fondo{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.fondo span{position:absolute;bottom:-90px;font-weight:900;color:rgba(255,255,255,.08);animation:subir linear infinite}
+@keyframes subir{to{transform:translateY(-125vh) rotate(35deg)}}
+.pantalla{display:none;position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:16px}
+.pantalla.activa{display:block}
+.tarjeta{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:20px}
+.centrada{width:100%;max-width:620px;margin:5vh auto 0;text-align:center}
+.titulo-juego{font-size:clamp(2.2rem,9vw,4rem);letter-spacing:.04em;font-weight:900;color:var(--navy);line-height:1.1}
+.titulo-juego span{display:inline-block;animation:ola 2.6s ease-in-out infinite;animation-delay:calc(var(--i)*.09s)}
+.titulo-juego span:nth-child(3n){color:var(--teal)}.titulo-juego span:nth-child(4n){color:#e0a100}
+@keyframes ola{0%,60%,100%{transform:none}30%{transform:translateY(-9px)}}
+.subtitulo{margin:6px 0 22px;color:var(--mut);font-size:1.15rem}
+.botones-col{display:flex;flex-direction:column;gap:12px;max-width:360px;margin:0 auto 20px}
+.botones-fila{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;border:0;border-radius:14px;padding:clamp(10px,1.9vh,14px) clamp(14px,3vw,22px);min-height:44px;font:inherit;font-weight:800;letter-spacing:.03em;cursor:pointer;text-decoration:none;text-align:center;transition:transform .15s,box-shadow .15s,background .15s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:none}
+.btn-principal{background:var(--sol);color:#2b1f00;box-shadow:0 5px 0 #c99500}
+.btn-principal:hover{box-shadow:0 7px 0 #c99500}
+.btn-sec{background:#e7f1fb;color:var(--azul);box-shadow:0 5px 0 #b9cde0}
+.btn-peligro{background:#ffe3df;color:#a5271a;box-shadow:0 5px 0 #f3b3aa}
+.btn:focus-visible,.btn-mini:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.btn-mini{border:0;background:#eef3f8;color:var(--azul);border-radius:10px;padding:8px 12px;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer}
+.btn-mini:hover{background:#dde8f3}
+.como-jugar{text-align:left;max-width:480px;margin:6px auto 18px;padding-left:22px;color:var(--tx);line-height:1.5;display:grid;gap:8px}
+.como-jugar li::marker{color:var(--teal);font-weight:900}
+.toast{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translate(-50%,30px);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;max-width:92vw;opacity:0;pointer-events:none;transition:.25s;z-index:100;font-weight:700;text-align:center}
+.toast.visible{opacity:1;transform:translate(-50%,0)}.toast.error{background:#b3261e}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* ==========================================================================
+   MODO "UNA SOLA PANTALLA" (solo index.html: <html/body class="juego">)
+   El juego ocupa exactamente el alto/ancho visible; nada genera scroll.
+   La altura real (--app-h) la fija main.js con visualViewport (barras del
+   navegador y teclado móvil); 100dvh es el respaldo.
+   ========================================================================== */
+html.juego{height:100%;overflow:hidden;overscroll-behavior:none}
+body.juego{position:fixed;top:0;left:0;width:100%;height:100vh;height:var(--app-h,100dvh);min-height:0;overflow:hidden;overscroll-behavior:none;background-attachment:scroll}
+.juego .fondo{height:100%}
+.juego *{scrollbar-width:none}
+.juego *::-webkit-scrollbar{display:none;width:0;height:0}
+
+.juego .pantalla{width:100%;max-width:1400px;height:100%;min-height:0;
+  padding:max(clamp(8px,2.2vmin,18px),env(safe-area-inset-top)) max(clamp(8px,2.2vmin,18px),env(safe-area-inset-right)) max(clamp(8px,2.2vmin,18px),env(safe-area-inset-bottom)) max(clamp(8px,2.2vmin,18px),env(safe-area-inset-left))}
+.juego .pantalla.activa{display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+/* Tipografía fluida: solo se reduce un poco en pantallas bajas */
+.juego .centrada{--fs:clamp(.82rem,calc(.45rem + 1.35vh),1rem);font-size:var(--fs);margin:0 auto;max-height:100%;display:flex;flex-direction:column;justify-content:center;min-height:0;overflow:auto;padding:clamp(12px,2.6vh,22px) clamp(14px,3.4vw,24px)}
+.juego .titulo-juego{font-size:clamp(1.9rem,min(9vw,8.5vh),4rem)}
+.juego .subtitulo{font-size:1.1em;margin:clamp(2px,.8vh,6px) 0 clamp(8px,2.4vh,22px)}
+.juego .botones-col{width:100%;gap:clamp(8px,1.5vh,12px);margin-bottom:clamp(10px,2.2vh,20px)}
+.juego .como-jugar{width:100%;line-height:1.35;gap:clamp(3px,.9vh,8px);margin:0 auto clamp(8px,1.8vh,18px);font-size:.95em}
+.juego .centrada h2{font-size:clamp(1.25rem,4.2vh,1.7rem);line-height:1.2}
+.juego .btn-mini{min-height:36px}
+
+/* Selección: la lista toma el alto sobrante (desplazable por gesto/rueda, sin barra visible) */
+#pantalla-seleccion .tarjeta{overflow:hidden}
+.juego .lista-seleccion{flex:1 1 auto;min-height:0;max-height:none;margin:clamp(8px,1.8vh,16px) 0 clamp(8px,1.8vh,20px);overscroll-behavior:contain}
+#pantalla-seleccion .btn{flex:none}
+
+/* Cuenta regresiva */
+.juego .cuenta-caja{width:100%;height:100%;min-height:0;display:grid;place-items:center}
+.juego .cuenta-num{font-size:clamp(4rem,min(26vw,38vh),13rem)}
+
+/* Teléfonos en horizontal / pantallas muy bajas: portada e introducción en 2 columnas */
+@media (orientation:landscape) and (max-height:560px){
+  .juego .centrada{max-width:min(940px,100%)}
+  #pantalla-inicio .tarjeta{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);grid-template-areas:"t o" "s o" "b o" "m o";column-gap:clamp(14px,3vw,32px);align-content:center;text-align:center}
+  #pantalla-inicio .titulo-juego{grid-area:t;align-self:end}
+  #pantalla-inicio .subtitulo{grid-area:s;margin-bottom:clamp(6px,1.6vh,12px)}
+  #pantalla-inicio .botones-col{grid-area:b;margin-bottom:clamp(6px,1.6vh,12px)}
+  #pantalla-inicio .como-jugar{grid-area:o;align-self:center;margin:0}
+  #pantalla-inicio .btn-sonido{grid-area:m;justify-self:center;align-self:start}
+  #pantalla-intro .botones-col{flex-direction:row;max-width:none}
+  #pantalla-intro .botones-col .btn{flex:1}
+  .juego .etiqueta-tema{margin:6px 0 8px}
+  .juego .intro-datos{margin-bottom:10px}
+}

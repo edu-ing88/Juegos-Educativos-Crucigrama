@@ -1,0 +1,2 @@
+Los efectos de sonido se sintetizan con la Web Audio API (js/sonidos.js), por lo que el juego
+funciona sin archivos de audio. Esta carpeta queda reservada por si deseas reemplazarlos por tus propios .mp3/.wav.

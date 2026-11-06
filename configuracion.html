@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configurar CRUCIGRAMA</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/configuracion.css">
+</head>
+<body>
+<main class="pantalla activa cfg">
+  <header class="cfg-cab"><h1>Configurar crucigrama</h1><p>Escribe tus preguntas y respuestas; la cuadrícula se genera automáticamente.</p></header>
+  <div id="mensajes" class="mensajes" hidden></div>
+  <div class="cfg-grid">
+    <div>
+      <section class="tarjeta">
+        <h2>A. Datos generales</h2>
+        <label for="f-titulo">Título del crucigrama</label>
+        <input type="text" id="f-titulo" maxlength="80" placeholder="Ej.: Los seres vivos">
+        <label for="f-tema">Tema o contenido de aprendizaje</label>
+        <input type="text" id="f-tema" maxlength="100" placeholder="Ej.: Ciencias naturales, 5.º grado">
+        <label for="f-instr">Instrucciones para el estudiante <small>(opcional)</small></label>
+        <textarea id="f-instr" maxlength="400" placeholder="Si lo dejas vacío se mostrarán instrucciones generales."></textarea>
+      </section>
+      <section class="tarjeta">
+        <h2>B. Preguntas y respuestas</h2>
+        <div class="fila-form">
+          <div><label for="f-pregunta">Pregunta o pista</label><textarea id="f-pregunta" maxlength="200" placeholder="Ej.: Ciencia que estudia los seres vivos."></textarea></div>
+          <div><label for="f-respuesta">Respuesta correcta <small>(puede llevar espacios)</small></label><input type="text" id="f-respuesta" maxlength="30" autocomplete="off" placeholder="BUENOS AIRES"></div>
+        </div>
+        <div class="acciones-form">
+          <button id="btn-agregar" class="btn btn-principal" type="button">AGREGAR PREGUNTA</button>
+          <button id="btn-cancelar" class="btn btn-sec" type="button" hidden>CANCELAR EDICIÓN</button>
+        </div>
+        <div class="tabla-wrap">
+          <table><thead><tr><th>N.º</th><th>Pregunta o pista</th><th>Respuesta</th><th>Acciones</th></tr></thead><tbody id="tabla"></tbody></table>
+        </div>
+        <div class="barra-final">
+          <button id="btn-guardar" class="btn btn-principal" type="button">GUARDAR CRUCIGRAMA</button>
+          <button id="btn-vista" class="btn btn-sec" type="button">VISTA PREVIA</button>
+          <button id="btn-nuevo" class="btn btn-sec" type="button">NUEVO CRUCIGRAMA</button>
+          <a class="btn btn-sec" href="index.html" id="btn-volver">VOLVER AL INICIO</a>
+        </div>
+      </section>
+    </div>
+    <aside class="tarjeta">
+      <h2>Mis crucigramas guardados</h2>
+      <div id="guardados" class="guardados"></div>
+    </aside>
+  </div>
+</main>
+
+<div id="vp" class="vp-modal" hidden>
+  <div class="vp-caja" role="dialog" aria-modal="true" aria-label="Vista previa">
+    <div class="vp-cab"><strong id="vp-info"></strong>
+      <span><button id="vp-otra" class="btn-mini" type="button">Otra disposición</button> <button id="vp-cerrar" class="btn-mini" type="button">Cerrar</button></span></div>
+    <div id="vp-cont" class="vp-cont"></div>
+  </div>
+</div>
+<div id="toast" class="toast" role="status"></div>
+<script src="js/almacenamiento.js"></script>
+<script src="js/crucigrama.js"></script>
+<script src="js/configuracion.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+/* juego.css — Selección, introducción, cuenta regresiva, tablero, pistas y modal. */
+.lista-seleccion{display:grid;gap:10px;margin:16px 0 20px;max-height:50vh;overflow:auto;text-align:left}
+.item-sel{display:grid;grid-template-columns:1fr auto;gap:2px 12px;border:2px solid var(--linea);background:#f6fafe;border-radius:14px;padding:12px 14px;cursor:pointer;font:inherit;text-align:left;transition:.15s}
+.item-sel:hover,.item-sel.destacado{border-color:var(--teal);background:#e6f7f7}
+.item-sel strong{font-size:1.05rem;color:var(--navy)}.item-sel span{grid-column:1;color:var(--mut)}
+.item-sel em{grid-row:1/3;grid-column:2;align-self:center;font-style:normal;font-weight:800;color:var(--teal)}
+.etiqueta-tema{display:inline-block;background:#e6f7f7;color:#0d6e72;padding:6px 14px;border-radius:99px;margin:10px 0 14px}
+.intro-instr{line-height:1.55;margin-bottom:10px;white-space:pre-line}.intro-datos{color:var(--mut);margin-bottom:20px}
+.cuenta-caja{min-height:80vh;display:grid;place-items:center}
+.cuenta-num{font-size:clamp(5rem,26vw,13rem);font-weight:900;color:#fff;text-shadow:0 8px 30px rgba(0,0,0,.35);text-align:center}
+.cuenta-num.late{animation:late .85s ease-out}
+@keyframes late{from{transform:scale(.3);opacity:0}30%{transform:scale(1.15);opacity:1}to{transform:scale(1)}}
+.hud{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"titulo" "stats" "barra" "botones";gap:6px 12px;align-items:center;padding:clamp(8px,1.6vh,14px) clamp(10px,2.4vw,18px);flex:none}
+.hud-titulo{grid-area:titulo;min-width:0}.hud-stats{grid-area:stats}.hud-botones{grid-area:botones}
+.hud-titulo h2{font-size:clamp(1rem,2.4vh + .3rem,1.25rem);line-height:1.2;color:var(--navy);overflow-wrap:break-word}.hud-titulo p{color:var(--mut);font-size:clamp(.78rem,1.6vh + .2rem,.95rem);line-height:1.25;overflow-wrap:break-word}
+.hud-stats{display:flex;gap:clamp(6px,1.4vw,10px)}
+.stat{flex:1;background:#eef6fc;border-radius:12px;padding:clamp(3px,.8vh,6px) clamp(6px,1.6vw,14px);text-align:center;min-width:0}
+.stat small{display:block;color:var(--mut);font-size:clamp(.66rem,1.2vh + .2rem,.76rem);line-height:1.2}.stat b{font-size:clamp(1.05rem,2.4vh + .2rem,1.35rem);line-height:1.2;font-variant-numeric:tabular-nums;color:var(--navy)}
+.barra{grid-area:barra;height:8px;background:#e3edf6;border-radius:9px;overflow:hidden}
+.barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--ok));transition:width .5s}
+.hud-botones{display:flex;gap:8px;justify-content:stretch;flex-wrap:nowrap;width:100%}
+.hud-botones .btn-mini{flex:1 1 0;min-width:0;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;padding:8px 10px;font-size:clamp(.8rem,2.2vw + .45rem,.95rem);touch-action:manipulation;transition:background .15s,transform .1s}
+.hud-botones .btn-mini:active{transform:scale(.96)}
+.hud-botones .btn-sonido{flex:0 0 auto;min-width:46px;font-size:1.1rem}
+.hud-botones .btn-reiniciar{background:#fff3cd;color:#7a5a00}.hud-botones .btn-reiniciar:hover{background:#ffe9a3}
+.hud-botones .btn-salir{background:#ffe3df;color:#a5271a}.hud-botones .btn-salir:hover{background:#ffd0c9}
+.pista-activa{flex:none;font-size:clamp(.9rem,1.5vh + .45rem,1.1rem);line-height:1.3;background:var(--sol);color:#2b1f00;padding:clamp(6px,1.2vh,10px) clamp(10px,2.4vw,16px);border-radius:14px;font-weight:600;box-shadow:0 4px 0 #c99500;overflow:auto;overflow-wrap:anywhere}
+#area-juego{display:flex;flex-direction:column;gap:clamp(6px,1.4vh,12px);width:100%;height:100%;min-height:0;max-width:1180px;margin:0 auto}
+.juego-layout{flex:1 1 0;min-height:0;min-width:0;width:100%;display:flex}
+.tablero-card{flex:1;min-height:0;min-width:0;padding:clamp(6px,1.4vmin,14px);display:flex}
+/* --cel y --gap los calcula juego.js a partir del espacio libre (ancho y alto) */
+#tablero-wrap{--cel:40px;--gap:3px;flex:1;min-width:0;min-height:0;overflow:hidden;display:grid;place-items:center}
+#tablero{display:grid;gap:var(--gap);margin:0 auto}
+.cel{width:var(--cel);height:var(--cel);position:relative;border-radius:7px;background:#fff;border:2px solid #9db8d2;transition:background .2s,border-color .2s}
+.cel.bloq{background:var(--navy);border-color:var(--navy);opacity:.9}
+.cel input{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;text-align:center;text-transform:uppercase;font:800 max(16px,calc(var(--cel)*.52)) "Trebuchet MS",system-ui,sans-serif;color:var(--navy);caret-color:transparent;border-radius:6px;padding-top:calc(var(--cel)*.12);cursor:pointer}
+.cel input:focus{outline:0}
+.num{position:absolute;top:1px;left:3px;font-size:max(9px,calc(var(--cel)*.27));font-weight:800;color:var(--azul);pointer-events:none;z-index:1}
+.cel.activa{background:var(--sel);border-color:#5a9bd5}
+.cel.foco{background:var(--sol);border-color:#c99500}
+.cel.correcta{background:var(--okbg);border-color:var(--ok)}.cel.correcta input{color:#0b6b36}
+.cel.error{background:#ffd9d3;border-color:var(--err);animation:sacudir .45s}
+.cel.exito{animation:pop .45s both}
+@keyframes sacudir{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.18);box-shadow:0 0 0 4px rgba(47,191,113,.35)}100%{transform:scale(1)}}
+.acciones{flex:none;text-align:center}
+.acciones .btn{width:100%;max-width:420px}
+.pistas-card{max-height:78vh;overflow:auto}
+.pistas-card h3{font-size:.95rem;color:var(--azul);margin:4px 0 8px;letter-spacing:.06em;text-transform:uppercase}
+.lista-pistas{list-style:none;display:grid;gap:6px;margin-bottom:16px;position:relative;max-height:34vh;overflow:auto}
+.lista-pistas li{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;cursor:pointer;border:2px solid transparent;line-height:1.35}
+.lista-pistas li:hover{background:#f1f7fc}
+.lista-pistas li b{flex:none;min-width:26px;height:26px;border-radius:8px;background:var(--azul);color:#fff;display:grid;place-items:center;font-size:.85rem}
+.lista-pistas li.activa{background:var(--sel);border-color:#5a9bd5}
+.lista-pistas li.resuelta{background:var(--okbg)}.lista-pistas li.resuelta b{background:var(--ok)}
+.lista-pistas li.resuelta span{text-decoration:line-through;text-decoration-color:rgba(11,107,54,.5)}
+.modal{position:fixed;inset:0;background:rgba(8,25,45,.7);display:grid;place-items:center;z-index:50;padding:16px;animation:fundir .3s}
+.modal[hidden]{display:none}
+.modal-caja{position:relative;overflow:hidden;background:#fff;border-radius:24px;padding:clamp(14px,3.4vh,28px) clamp(14px,3vw,22px);max-width:520px;width:100%;max-height:100%;overflow-y:auto;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.45);animation:sube .5s cubic-bezier(.2,1.3,.4,1)}
+.modal-caja h2{color:var(--navy);font-size:clamp(1.3rem,5vw,1.8rem);line-height:1.2;position:relative}
+.m-tema{color:var(--mut);margin:8px 0 16px;position:relative}
+.m-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative}
+.m-grid div{background:#eef6fc;border-radius:14px;padding:clamp(6px,1.6vh,12px)}
+.m-grid b{display:block;font-size:clamp(1.25rem,3.6vh,1.7rem);color:var(--azul);font-variant-numeric:tabular-nums}.m-grid small{color:var(--mut)}
+.m-mensaje{margin:clamp(8px,2vh,16px) 0;font-weight:700;color:#0d6e72;position:relative}
+.modal-caja .botones-fila{position:relative}
+#confeti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:caer linear infinite}
+@keyframes caer{to{transform:translateY(560px) rotate(540deg);opacity:.9}}
+@keyframes fundir{from{opacity:0}}@keyframes sube{from{transform:translateY(40px) scale(.9);opacity:0}}
+/* Pantallas anchas en vertical (tablets/PC): barra superior en una sola fila */
+@media (min-width:720px){
+  .hud{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"titulo stats botones" "barra barra barra";gap:6px 18px}
+  .stat{flex:none;min-width:86px}
+  .hud-botones{width:auto;justify-content:flex-end}
+  .hud-botones .btn-mini{flex:0 0 auto;padding:8px 14px}
+}
+/* Horizontal (móvil, tablet, laptop, PC): panel de datos a la izquierda y tablero a la derecha */
+@media (orientation:landscape) and (min-aspect-ratio:6/5){
+  #area-juego{max-width:none;display:grid;grid-template-columns:clamp(230px,34vw,400px) minmax(0,1fr);grid-template-rows:auto auto auto minmax(0,1fr);grid-template-areas:"hud tab" "pista tab" "acc tab" ". tab";column-gap:clamp(8px,1.8vw,18px);row-gap:clamp(6px,1.4vh,12px);align-content:stretch}
+  .hud{grid-area:hud;grid-template-columns:minmax(0,1fr);grid-template-areas:"titulo" "stats" "barra" "botones"}
+  .hud-botones{width:100%;justify-content:stretch;flex-wrap:wrap}
+  .hud-botones .btn-mini:not(.btn-sonido){flex:1 1 0;padding:8px 8px}
+  .stat{flex:1;min-width:0}
+  .pista-activa{grid-area:pista;min-height:0}
+  .juego-layout{grid-area:tab}
+  .acciones{grid-area:acc}
+  .acciones .btn{max-width:none}
+}
+/* Móviles en horizontal (muy poca altura): paneles más compactos */
+@media (orientation:landscape) and (max-height:480px){
+  .hud{padding:6px 10px;gap:4px 8px}
+  .hud-titulo p{display:block}
+  .stat{padding:2px 4px}.stat small{font-size:.6rem;white-space:nowrap}.stat b{font-size:1rem}
+  .hud-botones .btn-mini{padding:4px 8px;min-height:36px;font-size:.8rem}
+  .pista-activa{font-size:.86rem;padding:5px 9px;box-shadow:0 3px 0 #c99500}
+  .acciones .btn{padding:8px 12px;min-height:40px;box-shadow:0 3px 0 #c99500}
+  .m-grid{grid-template-columns:repeat(4,1fr)}
+  .m-grid small{font-size:.72rem}
+  .modal-caja h2{font-size:1.15rem}.m-tema{margin:4px 0 8px}.m-mensaje{font-size:.9rem}
+}
+
+@media (max-width:400px){.hud-botones{gap:6px}.hud-botones .btn-mini{padding:6px 6px;gap:4px}.stat small{white-space:nowrap}}
+.modal-caja .botones-fila .btn{flex:1 1 140px}
+@media (max-width:400px){.modal{padding:10px}.modal-caja{border-radius:18px}}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es" class="juego">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CRUCIGRAMA · Desafía tus conocimientos</title>
+<link rel="stylesheet" href="css/style.css?v=3">
+<link rel="stylesheet" href="css/juego.css?v=3">
+</head>
+<body class="juego">
+<div class="fondo" id="fondo" aria-hidden="true"></div>
+
+<!-- Inicio -->
+<section id="pantalla-inicio" class="pantalla activa">
+  <div class="tarjeta centrada">
+    <h1 id="titulo" class="titulo-juego">CRUCIGRAMA</h1>
+    <p class="subtitulo">Desafía tus conocimientos</p>
+    <div class="botones-col">
+      <button id="btn-iniciar" class="btn btn-principal">INICIAR JUEGO</button>
+      <a class="btn btn-sec" href="configuracion.html">CONFIGURAR CRUCIGRAMA</a>
+    </div>
+    <ol class="como-jugar">
+      <li><b>Elige</b> un crucigrama y presiona comenzar.</li>
+      <li><b>Toca</b> una casilla, lee la pista que aparece sobre el tablero y escribe la respuesta; las flechas del teclado te mueven.</li>
+      <li><b>Completa</b> la palabra: se valida sola. Si es correcta se marca en verde; si no, se resalta en rojo para que la corrijas.</li>
+      <li><b>Gana</b> 10 puntos por cada respuesta correcta y termina antes que el cronómetro.</li>
+    </ol>
+    <button class="btn-sonido btn-mini" type="button">🔊 Sonido</button>
+  </div>
+</section>
+
+<!-- Selección -->
+<section id="pantalla-seleccion" class="pantalla">
+  <div class="tarjeta centrada">
+    <h2>Elige un crucigrama</h2>
+    <div id="lista-seleccion" class="lista-seleccion"></div>
+    <button class="btn btn-sec" data-ir="inicio">VOLVER</button>
+  </div>
+</section>
+
+<!-- Introducción -->
+<section id="pantalla-intro" class="pantalla">
+  <div class="tarjeta centrada">
+    <h2 id="intro-titulo"></h2>
+    <p class="etiqueta-tema">Tema: <b id="intro-tema"></b></p>
+    <p id="intro-instr" class="intro-instr"></p>
+    <p class="intro-datos" id="intro-datos"></p>
+    <div class="botones-col">
+      <button id="btn-comenzar" class="btn btn-principal">COMENZAR</button>
+      <button class="btn btn-sec" data-ir="inicio">VOLVER</button>
+    </div>
+  </div>
+</section>
+
+<!-- Cuenta regresiva -->
+<section id="pantalla-cuenta" class="pantalla">
+  <div class="cuenta-caja"><div id="cuenta-num" class="cuenta-num" aria-live="assertive">3</div></div>
+</section>
+
+<!-- Juego -->
+<section id="pantalla-juego" class="pantalla">
+  <div id="area-juego">
+    <header class="hud tarjeta">
+      <div class="hud-titulo"><h2 id="j-titulo"></h2><p id="j-tema"></p></div>
+      <div class="hud-stats">
+        <div class="stat"><small>Tiempo</small><b id="j-tiempo">00:00</b></div>
+        <div class="stat"><small>Puntaje</small><b id="j-puntos">0</b></div>
+        <div class="stat"><small>Respondidas</small><b id="j-progreso">0/0</b></div>
+      </div>
+      <div class="barra" aria-hidden="true"><i id="j-barra"></i></div>
+      <div class="hud-botones">
+        <button class="btn-sonido btn-mini" type="button" aria-label="Sonido">🔊</button>
+        <button id="btn-reiniciar" class="btn-mini btn-reiniciar" type="button"><span aria-hidden="true">↻</span> Reiniciar</button>
+        <button id="btn-salir" class="btn-mini btn-salir" type="button"><span aria-hidden="true">✕</span> Salir</button>
+      </div>
+    </header>
+    <div id="pista-activa" class="pista-activa" aria-live="polite"></div>
+    <main class="juego-layout">
+      <div class="tarjeta tablero-card">
+        <div id="tablero-wrap"><div id="tablero"></div></div>
+      </div>
+    </main>
+    <div class="acciones"><button id="btn-comprobar" class="btn btn-principal">COMPROBAR PALABRA</button></div>
+  </div>
+</section>
+
+<!-- Resultados -->
+<div id="modal" class="modal" hidden>
+  <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="m-titulo">
+    <div id="confeti" aria-hidden="true"></div>
+    <h2 id="m-titulo">¡FELICIDADES, HAS COMPLETADO EL CRUCIGRAMA!</h2>
+    <p class="m-tema" id="m-tema"></p>
+    <div class="m-grid">
+      <div><b id="m-puntos">0</b><small>Puntaje total</small></div>
+      <div><b id="m-correctas">0</b><small>Respuestas correctas</small></div>
+      <div><b id="m-tiempo">00:00</b><small>Tiempo total</small></div>
+      <div><b id="m-pct">0%</b><small>Completado</small></div>
+    </div>
+    <p class="m-mensaje" id="m-mensaje"></p>
+    <div class="botones-fila">
+      <button id="m-again" class="btn btn-principal">VOLVER A JUGAR</button>
+      <button id="m-home" class="btn btn-sec">INICIO</button>
+    </div>
+  </div>
+</div>
+<div id="modal-salir" class="modal" hidden>
+  <div class="modal-caja" role="alertdialog" aria-modal="true" aria-labelledby="s-titulo">
+    <h2 id="s-titulo">¿Quieres salir del crucigrama?</h2>
+    <p class="m-tema">Se perderá tu avance y volverás a la pantalla de inicio.</p>
+    <div class="botones-fila"><button id="salir-si" class="btn btn-peligro">SÍ</button><button id="salir-no" class="btn btn-principal">NO</button></div>
+  </div>
+</div>
+<div id="modal-reiniciar" class="modal" hidden>
+  <div class="modal-caja" role="alertdialog" aria-modal="true" aria-labelledby="r-titulo">
+    <h2 id="r-titulo">¿Quieres reiniciar el crucigrama?</h2>
+    <p class="m-tema">Se borrará tu avance y el cronómetro empezará de nuevo.</p>
+    <div class="botones-fila"><button id="reiniciar-si" class="btn btn-peligro">SÍ, REINICIAR</button><button id="reiniciar-no" class="btn btn-principal">NO</button></div>
+  </div>
+</div>
+<div id="toast" class="toast" role="status"></div>
+
+<script src="js/almacenamiento.js?v=3"></script>
+<script src="js/sonidos.js?v=3"></script>
+<script src="js/crucigrama.js?v=3"></script>
+<script src="js/juego.js?v=3"></script>
+<script src="js/main.js?v=3"></script>
+</body>
+</html>

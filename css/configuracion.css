@@ -1,0 +1,45 @@
+/* configuracion.css — Página del docente. */
+.cfg{max-width:1100px}
+.cfg-cab{color:#fff;margin:6px 0 16px}.cfg-cab h1{font-size:clamp(1.6rem,5vw,2.3rem)}.cfg-cab p{opacity:.85}
+.cfg-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr);gap:16px;align-items:start}
+.cfg h2{font-size:1.1rem;color:var(--navy);margin-bottom:12px}
+.tarjeta+.tarjeta{margin-top:16px}
+label{display:block;font-weight:700;font-size:.9rem;margin:10px 0 4px;color:var(--azul)}
+label small{font-weight:400;color:var(--mut)}
+input[type=text],textarea{width:100%;border:2px solid var(--linea);border-radius:12px;padding:10px 12px;font:inherit;background:#f9fcff;color:var(--tx)}
+input:focus,textarea:focus{border-color:var(--teal);outline:0}
+textarea{resize:vertical;min-height:64px}
+#f-respuesta{text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.fila-form{display:grid;grid-template-columns:1fr 220px;gap:12px}
+.acciones-form{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.tabla-wrap{overflow:auto;margin-top:16px}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th{background:var(--navy);color:#fff;text-align:left;padding:9px 10px;font-size:.85rem}
+th:first-child{border-radius:10px 0 0 0}th:last-child{border-radius:0 10px 0 0}
+td{padding:9px 10px;border-bottom:1px solid #e3edf6;vertical-align:middle}
+td.n{font-weight:800;color:var(--azul);width:48px}td.r{font-weight:800;letter-spacing:.05em;color:#0d6e72}
+tr.editando td{background:#fff6d6}
+.vacio{color:var(--mut);text-align:center;padding:18px}
+.btn-tabla{border:0;border-radius:8px;padding:6px 10px;font:inherit;font-size:.8rem;font-weight:700;cursor:pointer;margin:2px}
+.b-ed{background:#e7f1fb;color:var(--azul)}.b-el{background:#ffe3df;color:#a5271a}.b-ju{background:var(--okbg);color:#0b6b36}
+.barra-final{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.mensajes{border-radius:12px;padding:12px 14px;margin-bottom:14px;line-height:1.4}
+.mensajes ul{margin:6px 0 0 18px}.mensajes.ok{background:var(--okbg);color:#0b4f29}.mensajes.error{background:#ffe3df;color:#8a1f14}
+.guardados{display:grid;gap:10px}
+.guardado{border:2px solid var(--linea);border-radius:14px;padding:10px 12px}
+.guardado.actual{border-color:var(--teal);background:#e6f7f7}
+.guardado strong{display:block;color:var(--navy)}.guardado span{color:var(--mut);font-size:.88rem}
+.vp-modal{position:fixed;inset:0;background:rgba(8,25,45,.7);z-index:50;display:grid;place-items:center;padding:14px}
+.vp-modal[hidden]{display:none}
+.vp-caja{background:#fff;border-radius:20px;max-width:980px;width:100%;max-height:92vh;overflow:auto;padding:18px}
+.vp-cab{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.vp-cont{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(220px,1fr);gap:16px}
+.vp-gridwrap{overflow:auto}
+.vp-grid{display:grid;gap:2px}
+.vp-c,.vp-b{display:grid;place-items:center;border-radius:5px;position:relative}
+.vp-c{background:var(--okbg);border:2px solid var(--ok);font-weight:800;color:var(--navy)}.vp-b{background:var(--navy)}
+.vp-c i{position:absolute;top:0;left:2px;font-size:9px;font-style:normal;color:var(--azul)}
+.vp-pistas h3{font-size:.9rem;color:var(--azul);text-transform:uppercase;margin:6px 0}
+.vp-pistas ol{list-style:none;display:grid;gap:5px;margin-bottom:10px;font-size:.92rem}
+.vp-pistas b{color:var(--azul);margin-right:6px}.vp-pistas em{color:#0d6e72;font-style:normal;font-weight:800}
+@media (max-width:860px){.cfg-grid,.vp-cont{grid-template-columns:1fr}.fila-form{grid-template-columns:1fr}}
